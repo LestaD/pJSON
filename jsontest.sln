@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2857B73E-F847-4B02-9238-064979017E93}") = "pjson", "pjson\pjson.cproj", "{0DDFE508-C112-4E18-A35F-6BD161C53B6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DDFE508-C112-4E18-A35F-6BD161C53B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DDFE508-C112-4E18-A35F-6BD161C53B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DDFE508-C112-4E18-A35F-6BD161C53B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DDFE508-C112-4E18-A35F-6BD161C53B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
