@@ -7,16 +7,20 @@ using namespace JSON;
 
 int main (int argc, char *argv[])
 {
+	cout.setf(ios::fixed, ios::floatfield);
+	cout.setf(ios::showpoint);
+
+
 	Value *val = new Value();
 	cout << (val->isNull() ? "null" : "any") << endl;
 
 	Value *vint = new Value(12);
 	Value *vfl = new Value(56.154);
-	Value *vbl = new Value(true);
+	Value *vbl = new Value(1912283.1);
 
 	cout << vint->getFloat() << endl;
-	cout << vfl->getDouble() << " - " << (vfl->getBool() ? "true" : "false") << endl;
-	cout << vbl->getInt() << " - " << vbl->getFloat() << " - " << vbl->getString() << endl;
+	cout << vfl->set(true)->getFloat() << " - " << (vfl->getBool() ? "true" : "false") << endl;
+	cout << vbl->getInt() << " - " << vbl->getFloat() <<" - " << vbl->getString() << endl;
 
 	cout << "Hello world!" << endl;
 	

@@ -23,7 +23,8 @@ public:
 	Value(Value *copy);
 	Value(Value &copy);
 	Value(int val);
-	//Value(const char* val);
+	Value(const char* val);
+	Value(std::string val);
 	Value(double val);
 	Value(bool val);
 
@@ -47,6 +48,16 @@ public:
 	float		getFloat();
 	bool		getBool();
 	std::string	getString();
+
+	Value*	set(Value *val);
+	Value*	set(Value val);
+	Value*	set(int val);
+	Value*	set(double val);
+	Value*	set(bool val);
+	Value*	set(const char *val);
+
+	Value*	setNull();
+
 
 protected:
 	void nullinit();

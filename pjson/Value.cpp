@@ -1,6 +1,7 @@
 ﻿#include "Value.h"
 #include <sstream>
 #include <cstdlib>
+#include <iostream>
 
 namespace JSON {
 
@@ -33,7 +34,17 @@ namespace JSON {
 		m_Double = val;
 	}
 
+	Value::Value(const char *val) {
+		nullinit();
+		m_TypeFlag = T_STRING;
+		m_String = val;
+	}
 
+	Value::Value(std::string val) {
+		nullinit();
+		m_TypeFlag = T_STRING;
+		m_String = val;
+	}
 
 	Value::Value(bool val) {
 		nullinit();
@@ -188,6 +199,8 @@ namespace JSON {
 			case T_NULL:	m_String.assign("");	break;
 			case T_DOUBLE:	{
 				std::ostringstream sstream;
+				sstream.setf(std::ios::fixed, std::ios::floatfield);
+				sstream.setf(std::ios::showpoint);
 				sstream << m_Double;
 				m_String = sstream.str();			break;
 			}
@@ -199,7 +212,68 @@ namespace JSON {
 			case T_BOOLEAN: m_String = m_Bool? "true" : "false";
 													break;
 			
-			// ...
+			case T_ARRAY: m_String = "array[]";		break;
+			case T_OBJECT: m_String = "object";		break;
 		}
+	}
+
+	// ----- SET VALUE ----- //
+
+	Value* Value::set(Value *val) {
+		switch (val->m_TypeFlag) {
+			case T_INT: m_Int = val->m_Int; break;
+			case T_DOUBLE: m_Double = val->m_Double; break;
+			case T_STRING: m_String = val->m_String.c_str(); break;
+			case T_BOOLEAN: m_Bool = val->m_Bool; break;
+		}
+
+		return this;
+	}
+
+	Value* Value::set(Value val) {
+		switch (val.m_TypeFlag) {
+			case T_INT: m_Int = val.m_Int; break;
+			case T_DOUBLE: m_Double = val.m_Double; break;
+			case T_STRING: m_String = val.m_String.c_str(); break;
+			case T_BOOLEAN: m_Bool = val.m_Bool; break;
+		}
+
+		return this;
+	}
+
+
+	Value* Value::set(int val) {
+		m_TypeFlag = T_INT;
+		m_Int = val;
+
+		return this;
+	}
+
+
+	Value* Value::set(double val) {
+		m_TypeFlag = T_DOUBLE;
+		m_Double = val;
+
+		return this;
+	}
+
+
+	Value* Value::set(bool val) {
+		m_TypeFlag = T_BOOLEAN;
+		m_Bool = val;
+
+		return this;
+	}
+
+	Value* Value::set(const char *val) {
+		m_TypeFlag = T_STRING;
+		m_String = val;
+	}
+
+	Value* Value::setNull() {
+		m_TypeFlag = T_NULL;
+		nullinit();
+
+		return this;
 	}
 }
