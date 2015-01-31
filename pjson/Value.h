@@ -1,4 +1,5 @@
 ﻿#include <string>
+#include <vector>
 
 namespace JSON {
 
@@ -28,6 +29,9 @@ public:
 	Value(double val);
 	Value(bool val);
 
+	static Value* Array();
+	static Value* Object();
+
 	~Value();
 
 	Type getType();
@@ -55,8 +59,17 @@ public:
 	Value*	set(double val);
 	Value*	set(bool val);
 	Value*	set(const char *val);
+	Value*	set(std::string val);
 
 	Value*	setNull();
+
+	Value*	toArray();
+	Value*	toObject();
+	Value*	get(int index);
+	Value*	get(const char* key);
+	Value*	get(std::string key);
+
+	int		length();
 
 
 protected:
@@ -67,10 +80,11 @@ protected:
 	void convertToBool();
 	void convertToString();
 
-	int			m_Int;
-	double		m_Double;
-	bool		m_Bool;
-	std::string	m_String;
+	int					m_Int;
+	double				m_Double;
+	bool				m_Bool;
+	std::string			m_String;
+	std::vector<Value*>	m_Array;
 
 private:
 	

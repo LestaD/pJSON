@@ -52,6 +52,20 @@ namespace JSON {
 		m_Bool = val;
 	}
 
+	Value* Value::Array() {
+		Value *pVal = new Value();
+		pVal->m_TypeFlag = T_ARRAY;
+
+		return pVal;
+	}
+
+	Value* Value::Object() {
+		Value *pVal = new Value();
+		pVal->m_TypeFlag = T_OBJECT;
+
+		return pVal;
+	}
+
 	// ----- DESTRUCTOR ----- //
 
 	Value::~Value() {
@@ -270,10 +284,55 @@ namespace JSON {
 		m_String = val;
 	}
 
+	Value* Value::set(std::string val) {
+		m_TypeFlag = T_STRING;
+	}
+
 	Value* Value::setNull() {
 		m_TypeFlag = T_NULL;
 		nullinit();
 
 		return this;
+	}
+
+
+	// ----- CONVERTING ----- //
+
+	Value* Value::toArray() {
+		if (!isArray()) {
+			nullinit();
+			m_TypeFlag = T_ARRAY;
+		}
+
+		return this;
+	}
+
+	Value* Value::toObject() {
+		if (!isObject()) {
+			nullinit();
+			m_TypeFlag = T_OBJECT;
+		}
+
+		return this;
+	}
+
+	Value* Value::get(int index) {
+		
+	}
+
+	Value* Value::get(const char *key) {
+
+	}
+
+	Value* Value::get(std::string key) {
+
+	}
+
+	int Value::length() {
+		switch(getType()) {
+			case T_STRING: return m_String.length();
+			case T_ARRAY: return m_Array.size();
+			default: return 0;
+		}
 	}
 }
