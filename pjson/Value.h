@@ -48,8 +48,9 @@ public:
 	static Value* Object();
 
 	~Value();
+	void kill();
 
-	Type getType();
+	Type getType() const;
 	const char* getTypeString();
 
 	bool isEmpty();
@@ -86,22 +87,30 @@ public:
 	Value*	set(std::string key, Value *val);
 
 	Value*	push(Value *val);
-	Value*	push(int_j index, Value* val);
-	Value*	push(const char* key, Value* val);
+	Value*	push(int_j index, Value *val);
+	Value*	push(const char *key, Value* val);
+
+	Value*	remove(int_j index);
+	Value*	remove(const char *key);
+	Value*	remove(std::string key);
 
 	int_j	length();
 
 
+	Value& operator+=(const Value& rhs);
+	Value& operator+=(const int& rhs);
+
 protected:
 	void nullinit();
+	void copyfrom(Value&v);
 
 	Value*	toArray();
 	Value*	toObject();
 
-	void convertToInt();
-	void convertToDouble();
-	void convertToBool();
-	void convertToString();
+	void convertToInt(bool change = false);
+	void convertToDouble(bool change = false);
+	void convertToBool(bool change = false);
+	void convertToString(bool change = false);
 
 	Value(Type typeflag);
 

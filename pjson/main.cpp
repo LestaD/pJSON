@@ -6,18 +6,26 @@ using namespace LESTAD::JSON;
 
 void test1();
 void test2();
+void test3();
 
 int main (int argc, char *argv[])
 {
 	cout.setf(ios::fixed, ios::floatfield);
 	cout.setf(ios::showpoint);
 
-	test2();
+	test3();
 
 
 	cout << "Hello world!" << endl;
 	
 	return 0;
+}
+
+void test3() {
+	Value *v = new Value(1111);
+	Value *v2 = new Value(v);
+	*v2 += 2;
+	cout << v->getInt() << " : " << v2->getInt() <<  endl;
 }
 
 void test2()

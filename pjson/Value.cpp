@@ -18,11 +18,13 @@ namespace JSON {
 	Value::Value(Value *copy) {
 		nullinit();
 		m_TypeFlag = copy->m_TypeFlag;
+		copyfrom(*copy);
 	}
 
 	Value::Value(Value &copy) {
 		nullinit();
 		m_TypeFlag = copy.m_TypeFlag;
+		copyfrom(copy);
 	}
 
 	Value::Value(int_j val) {
@@ -84,13 +86,18 @@ namespace JSON {
 		m_String.clear();
 		int_j size = m_Array.size();
 		for (int_j i = 0; i < size; i++) {
-			delete m_Array.at(i);
+			m_Array.at(i)->kill();
 			m_Array.erase(m_Array.begin() + i);
 		}
 		for (Map::iterator i = m_Object.begin(); i != m_Object.end(); i++) {
-			delete (*i).second;
+			(*i).second->kill();
 		}
 		m_Object.clear();
+	}
+
+
+	void Value::kill() {
+		delete this;
 	}
 
 
@@ -100,6 +107,21 @@ namespace JSON {
 		m_Int = 0;
 		m_Double = 0.0;
 		m_Bool = false;
+	}
+
+	void Value::copyfrom(Value &v) {
+		m_Int = v.m_Int;
+		m_Double = v.m_Double;
+		m_Bool = v.m_Bool;
+		m_String = v.m_String.c_str();
+		int_j size = v.m_Array.size();
+		for (int_j i = 0; i < size; i++) {
+			m_Array.at(i) = v.m_Array.at(i);
+		}
+		Map *obj = &v.m_Object;
+		for (Map::iterator i = obj->begin(); i != obj->end(); i++) {
+			m_Object.insert(Pair((*i).first, (*i).second));
+		}
 	}
 
 
@@ -117,7 +139,7 @@ namespace JSON {
 	}
 
 
-	Value::Type Value::getType() {
+	Value::Type Value::getType() const {
 		return m_TypeFlag;
 	}
 
@@ -208,34 +230,37 @@ namespace JSON {
 
 	// ----- TYPE CONVERT ----- //
 
-	void Value::convertToInt() {
+	void Value::convertToInt(bool change) {
 		switch(m_TypeFlag) {
 			case T_NULL:	m_Int = 0;					break;
 			case T_DOUBLE:	m_Int = (int_j)m_Double;	break;
 			case T_BOOLEAN: m_Int = m_Bool ? 1 : 0;		break;
 			case T_STRING:	m_Int = std::atoi(m_String.c_str());		break;
 		}
+		if (change) m_TypeFlag = m_INT;
 	}
 
-	void Value::convertToDouble() {
+	void Value::convertToDouble(bool change) {
 		switch(m_TypeFlag) {
 			case T_NULL:	m_Double = 0.0;					break;
 			case T_INT:		m_Double = (double)m_Int;		break;
 			case T_BOOLEAN: m_Double = m_Bool ? 1.0 : 0.0;	break;
 			case T_STRING:	m_Double = std::atof(m_String.c_str());		break;
 		}
+		if (change) m_TypeFlag = m_DOUBLE;
 	}
 
-	void Value::convertToBool() {
+	void Value::convertToBool(bool change) {
 		switch(m_TypeFlag) {
 			case T_NULL:	m_Bool = false; 						break;
 			case T_DOUBLE:	m_Bool = m_Double == 0 ? false : true;	break;
 			case T_INT:		m_Bool = m_Int == 0 ? false : true;		break;
 			case T_STRING:	m_Bool = m_String.length() > 0;
 		}
+		if (change) m_TypeFlag = m_BOOLEAN;
 	}
 
-	void Value::convertToString() {
+	void Value::convertToString(bool change) {
 		switch(m_TypeFlag) {
 			case T_NULL:	m_String.assign("");	break;
 			case T_DOUBLE:	{
@@ -253,9 +278,13 @@ namespace JSON {
 			case T_BOOLEAN: m_String = m_Bool? "true" : "false";
 													break;
 			
-			case T_ARRAY: m_String = "array[]";		break;
-			case T_OBJECT: m_String = "object";		break;
+			case T_ARRAY: {
+				// 3,5,6,2,234,6,1
+				break;
+			}
+			case T_OBJECT: m_String = "[object Object]";		break;
 		}
+		if (change) m_TypeFlag = m_STRING;
 	}
 
 	// ----- SET VALUE ----- //
@@ -439,6 +468,105 @@ namespace JSON {
 		}
 		m_Object.insert(Pair(std::string(key), val));
 		return this;
+	}
+
+
+
+	Value* Value::remove(int_j index) {
+		if (isArray()) {
+
+		}
+
+		return this;
+	}
+
+	Value* Value::remove(const char *key) {
+		
+
+		return this;
+	}
+
+	Value* Value::remove(std::string key) {
+		
+
+		return this;
+	}
+
+
+
+	// ----- OPERATOR OVERLOADING ----- //
+
+	Value& Value::operator+=(const Value& rhs) {
+		switch(getType()) {
+			case T_INT: {
+				switch(rhs.getType()) {
+					case T_INT: m_Int += rhs.m_Int; break;
+					case T_BOOLEAN: m_Int += (int_j)rhs.m_Bool; break;
+					case T_STRING: {
+						convertToString(true);
+						m_String.append(rhs.m_String);
+						break;
+					}
+					case T_DOUBLE: {
+						convertToDouble(true);
+						m_Double += rhs.m_Double;
+						break;
+					}
+				}
+				break;
+			}
+
+			case T_DOUBLE: {
+				switch(rhs.getType()) {
+					case T_INT: m_Double += (double)rhs.m_Int; break;
+					case T_BOOLEAN: m_Double += (int_j)rhs.m_Bool; break;
+					case T_STRING: {
+						convertToString(true);
+						m_String.append(rhs.m_String);
+						break;
+					}
+					case T_DOUBLE: m_Double += rhs.m_Double; break;
+				}
+				break;
+			}
+			case T_BOOLEAN: {
+				switch(rhs.getType())) {
+					case T_INT: {
+						convertToInt(true);
+						m_Int += rhs.m_Int;
+						break;
+					}
+					case T_BOOLEAN: {
+						convertToInt(true);
+						m_Int += (int_j)rhs.m_Bool;
+						break;
+					}
+					case T_DOUBLE: {
+						convertToDouble(true);
+						m_Double += rhs.m_Double;
+						break;
+					}
+					case T_STRING: {
+						convertToString(true);
+						m_String.append(rhs.m_String);
+						break;
+					}
+				}
+				break;
+			}
+			case T_STRING: {
+				// !!!!! ----- NEED TO WRITE ----- !!!!! \\
+				break;
+			}
+		}
+		return *this;
+	}
+
+	Value& Value::operator+=(const int& rhs) {
+		if (isInt()) {
+			m_Int += rhs;
+		}
+		return *this;
 	}
 }
 }
