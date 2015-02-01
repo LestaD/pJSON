@@ -1,5 +1,6 @@
 ﻿#include <string>
 #include <vector>
+#include <map>
 
 namespace LESTAD {
 
@@ -15,6 +16,7 @@ namespace JSON {
 	typedef int int_j;
 #endif
 
+
 class Value {
 	
 	enum Type {
@@ -28,6 +30,9 @@ class Value {
 
 		T_UNDEFINED = -1
 	};
+
+	typedef std::map<std::string, Value*> Map;
+	typedef std::pair<std::string, Value*> Pair;
 
 public:
 	Value();
@@ -73,9 +78,6 @@ public:
 
 	Value*	setNull();
 
-
-	Value*	toArray();
-	Value*	toObject();
 	Value*	get(int_j index);
 	Value*	get(const char *key);
 	Value*	get(std::string key);
@@ -84,12 +86,17 @@ public:
 	Value*	set(std::string key, Value *val);
 
 	Value*	push(Value *val);
+	Value*	push(int_j index, Value* val);
+	Value*	push(const char* key, Value* val);
 
 	int_j	length();
 
 
 protected:
 	void nullinit();
+
+	Value*	toArray();
+	Value*	toObject();
 
 	void convertToInt();
 	void convertToDouble();
@@ -105,6 +112,7 @@ private:
 	bool				m_Bool;
 	std::string			m_String;
 	std::vector<Value*>	m_Array;
+	Map					m_Object;
 
 	Type m_TypeFlag;
 

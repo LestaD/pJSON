@@ -1,6 +1,7 @@
 ﻿#include "Value.h"
 #include <sstream>
 #include <cstdlib>
+#include <cstdio>
 #include <iostream>
 
 
@@ -94,8 +95,15 @@ namespace JSON {
 
 
 	bool Value::isEmpty() {
-		if (getType() == T_UNDEFINED || getType() == T_NULL) return true;
-
+		switch(getType()) {
+			case T_INT: 		return m_Int == 0;
+			case T_DOUBLE: 		return m_Double == 0.0;
+			case T_STRING: 		return m_String.length() == 0;
+			case T_ARRAY: 		return m_Array.size() == 0;
+			case T_OBJECT:		return m_Object.size() == 0;
+			case T_NULL:
+			case T_UNDEFINED:	return true;
+		}
 		// WRITE IT
 	}
 
@@ -321,14 +329,35 @@ namespace JSON {
 		if (!isObject()) {
 			nullinit();
 			m_TypeFlag = T_OBJECT;
+			if(isArray()) {
+				int_j size = length();
+				// Copy elements from array to object
+				// With string keys: "0", "1", "2"
+				for (int_j i = 0; i < size; i++) {
+					char pt[22];
+					snprintf(pt, sizeof(pt), "%d", i);
+					push((const char*)pt, this->get(i));
+				}
+				// Clear array
+				m_Array.erase(m_Array.begin(), m_Array.end());
+			}
 		}
 
 		return this;
 	}
 
+	/**
+	 * Get value in array bi index
+	 */
 	Value* Value::get(int_j index) {
 		if (length() < 1) return new Value(T_UNDEFINED);
-		if (getType() != T_ARRAY) return new Value(T_NULL);
+		if (isObject()) {
+			// find by old "int" value
+			char buf[22];
+			snprintf(buf, sizeof(buf), "%d", index);
+			return get((const char*)buf);
+		}
+		if (!isArray()) return new Value(T_NULL);
 		if (index + 1 > length() ) return new Value(T_UNDEFINED);
 
 		Value* p = m_Array.at(index);
@@ -342,29 +371,64 @@ namespace JSON {
 	 * Object
 	 */
 	Value* Value::get(const char *key) {
-		
+		return get(std::string(key));
 	}
 
 	Value* Value::get(std::string key) {
-		
+		if (isArray()) {
+			toObject();
+		}
+		if (!isObject()) return new Value(T_NULL);
+		Map::iterator buf = m_Object.find(key);
+		if(buf != m_Object.end()) {
+			return buf->second;
+		}
+		return new Value(T_UNDEFINED);
 	}
 
+	/**
+	 * Return size of array
+	 * Return length of string
+	 */
 	int_j Value::length() {
 		switch(getType()) {
 			case T_STRING: return m_String.length();
 			case T_ARRAY: return m_Array.size();
-			default: return 0;
 		}
+
+		return 0;
 	}
 
+	/**
+	 * Insert new item at end
+	 * If this not array return item
+	 */
 	Value* Value::push(Value* val) {
-		if (getType() == T_ARRAY) {
-			m_Array.push_back(val);
-		}
-		else {
-			// maybe Exception?
-		}
+		if (!isArray()) return val;
+		m_Array.push_back(val);
+		return this;
+	}
 
+	/**
+	 * Set at known index
+	 */
+	Value* Value::push(int_j index, Value* val) {
+		if (!isArray()) return val;
+		m_Array.at(index) = val;
+		return this;
+	}
+
+	/**
+	 * Set value for key
+	 * Object only
+	 * If not object, value will be converted to object
+	 * If this is array, integer keys will be converted to string keys
+	 */
+	Value* Value::push(const char* key, Value* val) {
+		if (!isObject()) {
+			toObject();
+		}
+		m_Object.insert(Pair(std::string(key), val));
 		return this;
 	}
 }
