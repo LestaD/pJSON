@@ -81,7 +81,16 @@ namespace JSON {
 	// ----- DESTRUCTOR ----- //
 
 	Value::~Value() {
-		
+		m_String.clear();
+		int_j size = m_Array.size();
+		for (int_j i = 0; i < size; i++) {
+			delete m_Array.at(i);
+			m_Array.erase(m_Array.begin() + i);
+		}
+		for (Map::iterator i = m_Object.begin(); i != m_Object.end(); i++) {
+			delete (*i).second;
+		}
+		m_Object.clear();
 	}
 
 
