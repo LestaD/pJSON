@@ -2,7 +2,7 @@
 #include "Value.h"
 
 using namespace std;
-using namespace JSON;
+using namespace LESTAD::JSON;
 
 
 int main (int argc, char *argv[])
@@ -26,6 +26,7 @@ int main (int argc, char *argv[])
 	arr->push(vbl);
 	arr->push(vfl);
 	cout << arr->getTypeString() << ": " << arr->length() << endl;
+
 
 	cout << "Hello world!" << endl;
 	

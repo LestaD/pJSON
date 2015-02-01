@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 
+
+namespace LESTAD {
 namespace JSON {
 
 	// ----- CONTRUCTORS ----- //
@@ -364,4 +366,5 @@ namespace JSON {
 			// maybe Exception?
 		}
 	}
+}
 }

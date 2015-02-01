@@ -1,7 +1,10 @@
 ﻿#include <string>
 #include <vector>
 
+namespace LESTAD {
+
 namespace JSON {
+
 
 
 
@@ -99,4 +102,5 @@ private:
 	Type m_TypeFlag;
 
 };
+}
 }
