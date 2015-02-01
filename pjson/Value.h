@@ -63,11 +63,17 @@ public:
 
 	Value*	setNull();
 
+
 	Value*	toArray();
 	Value*	toObject();
 	Value*	get(int index);
-	Value*	get(const char* key);
+	Value*	get(const char *key);
 	Value*	get(std::string key);
+
+	Value*	set(const char *key, Value *val);
+	Value*	set(std::string key, Value *val);
+
+	Value*	push(Value *val);
 
 	int		length();
 
@@ -80,14 +86,15 @@ protected:
 	void convertToBool();
 	void convertToString();
 
+	Value(Type typeflag);
+
+private:
+	
 	int					m_Int;
 	double				m_Double;
 	bool				m_Bool;
 	std::string			m_String;
 	std::vector<Value*>	m_Array;
-
-private:
-	
 
 	Type m_TypeFlag;
 

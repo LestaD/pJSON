@@ -1,1 +1,14 @@
-﻿<Properties StartupItem="pjson/pjson.cproj" />
+﻿<Properties StartupItem="pjson/pjson.cproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="pjson/main.cpp">
+    <Files>
+      <File FileName="pjson/main.cpp" Line="17" Column="17" />
+      <File FileName="pjson/Value.h" Line="26" Column="26" />
+      <File FileName="pjson/Value.cpp" Line="27" Column="27" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

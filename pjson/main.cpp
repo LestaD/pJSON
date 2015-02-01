@@ -22,6 +22,11 @@ int main (int argc, char *argv[])
 	cout << vfl->set(true)->getFloat() << " - " << (vfl->getBool() ? "true" : "false") << endl;
 	cout << vbl->getInt() << " - " << vbl->getFloat() <<" - " << vbl->getString() << endl;
 
+	Value *arr = Value::Array();
+	arr->push(vbl);
+	arr->push(vfl);
+	cout << arr->getTypeString() << ": " << arr->length() << endl;
+
 	cout << "Hello world!" << endl;
 	
 	return 0;

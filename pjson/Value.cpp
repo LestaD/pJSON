@@ -66,6 +66,15 @@ namespace JSON {
 		return pVal;
 	}
 
+	/**
+	 * @protected
+	 */
+	Value::Value(Type typeflag) {
+		nullinit();
+		m_TypeFlag = typeflag;
+	}
+
+
 	// ----- DESTRUCTOR ----- //
 
 	Value::~Value() {
@@ -317,15 +326,26 @@ namespace JSON {
 	}
 
 	Value* Value::get(int index) {
+		if (length() < 1) return new Value(T_UNDEFINED);
+		if (getType() != T_ARRAY) return new Value(T_NULL);
+		if (index + 1 > length() ) return new Value(T_UNDEFINED);
+
+		Value* p = m_Array.at(index);
+		if (p) return p;
+
+		return new Value(T_UNDEFINED);
+	}
+
+
+	/**
+	 * Object
+	 */
+	Value* Value::get(const char *key) {
 		
 	}
 
-	Value* Value::get(const char *key) {
-
-	}
-
 	Value* Value::get(std::string key) {
-
+		
 	}
 
 	int Value::length() {
@@ -333,6 +353,15 @@ namespace JSON {
 			case T_STRING: return m_String.length();
 			case T_ARRAY: return m_Array.size();
 			default: return 0;
+		}
+	}
+
+	Value* Value::push(Value* val) {
+		if (getType() == T_ARRAY) {
+			m_Array.push_back(val);
+		}
+		else {
+			// maybe Exception?
 		}
 	}
 }
