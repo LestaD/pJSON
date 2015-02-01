@@ -24,7 +24,7 @@ namespace JSON {
 		m_TypeFlag = copy.m_TypeFlag;
 	}
 
-	Value::Value(int val) {
+	Value::Value(int_j val) {
 		nullinit();
 		m_TypeFlag = T_INT;
 		m_Int = val;
@@ -101,7 +101,6 @@ namespace JSON {
 
 
 	Value::Type Value::getType() {
-		nullinit();
 		return m_TypeFlag;
 	}
 
@@ -195,7 +194,7 @@ namespace JSON {
 	void Value::convertToInt() {
 		switch(m_TypeFlag) {
 			case T_NULL:	m_Int = 0;					break;
-			case T_DOUBLE:	m_Int = (int)m_Double;		break;
+			case T_DOUBLE:	m_Int = (int_j)m_Double;	break;
 			case T_BOOLEAN: m_Int = m_Bool ? 1 : 0;		break;
 			case T_STRING:	m_Int = std::atoi(m_String.c_str());		break;
 		}
@@ -267,7 +266,7 @@ namespace JSON {
 	}
 
 
-	Value* Value::set(int val) {
+	Value* Value::set(int_j val) {
 		m_TypeFlag = T_INT;
 		m_Int = val;
 
@@ -327,7 +326,7 @@ namespace JSON {
 		return this;
 	}
 
-	Value* Value::get(int index) {
+	Value* Value::get(int_j index) {
 		if (length() < 1) return new Value(T_UNDEFINED);
 		if (getType() != T_ARRAY) return new Value(T_NULL);
 		if (index + 1 > length() ) return new Value(T_UNDEFINED);
@@ -350,7 +349,7 @@ namespace JSON {
 		
 	}
 
-	int Value::length() {
+	int_j Value::length() {
 		switch(getType()) {
 			case T_STRING: return m_String.length();
 			case T_ARRAY: return m_Array.size();
@@ -365,6 +364,8 @@ namespace JSON {
 		else {
 			// maybe Exception?
 		}
+
+		return this;
 	}
 }
 }

@@ -4,13 +4,29 @@
 using namespace std;
 using namespace LESTAD::JSON;
 
+void test1();
+void test2();
 
 int main (int argc, char *argv[])
 {
 	cout.setf(ios::fixed, ios::floatfield);
 	cout.setf(ios::showpoint);
 
+	test2();
 
+
+	cout << "Hello world!" << endl;
+	
+	return 0;
+}
+
+void test2()
+{
+	Value *root = new Value();
+}
+
+void test1()
+{
 	Value *val = new Value();
 	cout << (val->isNull() ? "null" : "any") << endl;
 
@@ -22,14 +38,23 @@ int main (int argc, char *argv[])
 	cout << vfl->set(true)->getFloat() << " - " << (vfl->getBool() ? "true" : "false") << endl;
 	cout << vbl->getInt() << " - " << vbl->getFloat() <<" - " << vbl->getString() << endl;
 
+	Value *vstr = new Value("my any string");
+
+	Value *vr = Value::Array();
+	vr->push(vbl)
+		->push(vfl)
+		->push(vint);
+
 	Value *arr = Value::Array();
-	arr->push(vbl);
-	arr->push(vfl);
+	arr->push(new Value(1))
+		->push(vstr)
+		->push(new Value("Irina"))
+		->push(vr);
 	cout << arr->getTypeString() << ": " << arr->length() << endl;
-
-
-	cout << "Hello world!" << endl;
-	
-	return 0;
+	for (int_j i = 0; i < arr->length(); i++)
+	{
+		Value *item = arr->get(i);
+		cout << item->getTypeString() << ": " << item->getString() << endl;
+	}
+	cout << "Test 1 complete!" << endl << endl;
 }
-

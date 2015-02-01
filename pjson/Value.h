@@ -5,8 +5,15 @@ namespace LESTAD {
 
 namespace JSON {
 
-
-
+#ifdef LESTAD_INT_TYPE_LONGLONG
+	typedef long long int int_j;
+#elseif defined (LESTAD_INT_TYPE_LONG)
+	typedef long int int_j;
+#elseif defined (LESTAD_INT_TYPE_SHORT)
+	typedef short int int_j;
+#else
+	typedef int int_j;
+#endif
 
 class Value {
 	
@@ -26,7 +33,7 @@ public:
 	Value();
 	Value(Value *copy);
 	Value(Value &copy);
-	Value(int val);
+	Value(int_j val);
 	Value(const char* val);
 	Value(std::string val);
 	Value(double val);
@@ -50,7 +57,7 @@ public:
 	bool isArray();
 	bool isObject();
 
-	int			getInt();
+	int_j		getInt();
 	double		getDouble();
 	float		getFloat();
 	bool		getBool();
@@ -58,7 +65,7 @@ public:
 
 	Value*	set(Value *val);
 	Value*	set(Value val);
-	Value*	set(int val);
+	Value*	set(int_j val);
 	Value*	set(double val);
 	Value*	set(bool val);
 	Value*	set(const char *val);
@@ -69,7 +76,7 @@ public:
 
 	Value*	toArray();
 	Value*	toObject();
-	Value*	get(int index);
+	Value*	get(int_j index);
 	Value*	get(const char *key);
 	Value*	get(std::string key);
 
@@ -78,7 +85,7 @@ public:
 
 	Value*	push(Value *val);
 
-	int		length();
+	int_j	length();
 
 
 protected:
@@ -93,7 +100,7 @@ protected:
 
 private:
 	
-	int					m_Int;
+	int_j				m_Int;
 	double				m_Double;
 	bool				m_Bool;
 	std::string			m_String;
