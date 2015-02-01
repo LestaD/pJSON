@@ -23,6 +23,26 @@ int main (int argc, char *argv[])
 void test2()
 {
 	Value *root = new Value();
+	root->push("name", new Value("LestaD"))
+		->push("surname", new Value("Zeix"))
+		->push("age", new Value(20))
+		->push("nation", new Value("russian"))
+		->push("male", new Value(true));
+	
+	Value *internals = Value::Array();
+	internals->push(new Value("mind"))
+		->push(new Value("cute"))
+		->push(new Value("clever"));
+	
+	Value *skills = Value::Object();
+	skills->push("fast", new Value(6))
+		->push("look", new Value(8));
+	
+	root->push("skills", skills)
+		->push("internals", internals);
+	
+
+
 }
 
 void test1()
