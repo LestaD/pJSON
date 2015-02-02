@@ -10,6 +10,7 @@ namespace LESTAD {
 		public:
 			virtual std::string print(Value *doc) = 0;
 			virtual void kill() = 0;
+			friend Value;
 		};
 
 		class BasePrinter : public IPrinter {

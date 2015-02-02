@@ -10,13 +10,22 @@ namespace LESTAD { namespace JSON {
 	class JsonPrinter : public IPrinter {
 	public:
 		JsonPrinter();
+		JsonPrinter(bool pretty);
 		~JsonPrinter();
+
+		void pretty();
 
 		virtual std::string print(Value *doc);
 		virtual void kill();
+	
+	protected:
+		
+		std::string recursivePrint(Value *doc, int level);
+		std::string appendSpace(int level);
 
 	private:
-		Value* m_Value;
+		bool	m_bPretty;
+		Value*	m_Value;
 	};
 
 }}

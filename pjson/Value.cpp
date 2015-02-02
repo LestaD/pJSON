@@ -461,7 +461,7 @@ namespace JSON {
 	 * If this not array return item
 	 */
 	Value* Value::push(Value* val) {
-		if (!isArray()) return val;
+		if (!isArray()) return this;
 		m_Array.push_back(val);
 		return this;
 	}

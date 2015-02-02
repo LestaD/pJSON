@@ -37,12 +37,18 @@ void test2()
 		->push("surname", new Value("Zeix"))
 		->push("age", new Value(20))
 		->push("nation", new Value("russian"))
-		->push("male", new Value(true));
+		->push("male", new Value(true))
+		->push("level", new Value(77.4));
 	
+	Value *mine = Value::Object();
+	mine->push("w", new Value("speed"))
+		->push("t", new Value("flash"));
+
 	Value *internals = Value::Array();
 	internals->push(new Value("mind"))
 		->push(new Value("cute"))
 		->push(new Value("clever"));
+	internals->push(mine);
 	
 	Value *skills = Value::Object();
 	skills->push("fast", new Value(6))
@@ -53,7 +59,7 @@ void test2()
 	
 	Printeger *printer = new Printeger();
 	printer->set(root);
-	printer->set(new JsonPrinter());
+	printer->set(new JsonPrinter(true));
 	cout << printer->print() << endl;
 }
 
