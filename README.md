@@ -76,35 +76,44 @@ for( int i = 0; i < varr->length(); i++) {
 
 ### And as object
 ```c++
+#include <iostream>
 #include "Value.h"
-#include "Writer.h"
-#include "JsonWriter.h"
+#include "Printeger.h"
+#include "JsonPrinter.h"
 
+using namespace std;
 using namespace LESTAD::JSON;
 
 int main() {
-    Value *root = new Value();
-    root->push("name", new Value("LestaD"))
-    	->push("surname", new Value("Zeix"))
-    	->push("age", new Value(20))
-    	->push("nation", new Value("russian"))
-    	->push("male", new Value(true));
-    
-    Value *internals = Value::Array();
-    internals->push(new Value("mind"))
-    	->push(new Value("cute"))
-    	->push(new Value("clever"));
-    
-    Value *skills = Value::Object();
-    skills->push("fast", new Value(6))
-    	->push("look", new Value(8));
-    
-    root->push("skills", skills)
-    	->push("internals", internals);
-    	
-    Writer *writer = new Writer();
-    writer->set(new JsonWriter());
-    cout << writer->print(root, true) << endl;
+	Value *root = new Value();
+	root->push("name", new Value("LestaD"))
+		->push("surname", new Value("Zeix"))
+		->push("age", new Value(20))
+		->push("nation", new Value("russian"))
+		->push("male", new Value(true))
+		->push("level", new Value(77.4));
+
+	Value *mine = Value::Object();
+	mine->push("w", new Value("speed"))
+		->push("t", new Value("flash"));
+
+	Value *internals = Value::Array();
+	internals->push(new Value("mind"))
+		->push(new Value("cute"))
+		->push(new Value("clever"));
+	internals->push(mine);
+
+	Value *skills = Value::Object();
+	skills->push("fast", new Value(6))
+		->push("look", new Value(8));
+
+	root->push("skills", skills)
+		->push("internals", internals);
+
+	Printeger *printer = new Printeger();
+	printer->set(root);
+	printer->set(new JsonPrinter(true));
+	cout << printer->print() << endl;
     
 	return 0;
 }
@@ -121,7 +130,10 @@ equals:
     "fast": 6,
     "look": 8
   },
-  "internals": ["mind", "cute", "clever"]
+  "internals": ["mind", "cute", "clever", {
+	   "t": "flash",
+	   "w": "speed"
+  }]
 }
 ```
 
@@ -142,6 +154,10 @@ age = 20
 nation = "russian"
 male = true
 internals = "mind","clever","cute"
+
+internals[3]
+t = "flash"
+w = "speed"
 
 [skills]
 fast = 6
