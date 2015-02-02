@@ -275,13 +275,18 @@ namespace JSON {
 				sstream << m_Double;
 				m_String = sstream.str();
 				char *str = (char*)m_String.c_str();
-				int sz = std::strlen(str);
-				for (int i = sz; i > 0; --i) {
-					if (str[i] == '0') {
-						str[i] = '\0';
+				if (std::strchr(str, '.') != NULL)  {
+					int sz = std::strlen(str);
+					for (int i = sz; i > 0; --i) {
+						if (str[i] == '0') {
+							if (str[i-1] != '.') {
+								str[i] = '\0';
+							}
+							else break;
+						}
 					}
+					m_String = str;
 				}
-				m_String = str;
 				break;
 			}
 			case T_INT: {
