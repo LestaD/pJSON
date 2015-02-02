@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "Value.h"
+#include "Printeger.h"
 
 using namespace std;
 using namespace LESTAD::JSON;
@@ -13,7 +14,7 @@ int main (int argc, char *argv[])
 	cout.setf(ios::fixed, ios::floatfield);
 	cout.setf(ios::showpoint);
 
-	test3();
+	test2();
 
 
 	cout << "Hello world!" << endl;
@@ -49,8 +50,9 @@ void test2()
 	root->push("skills", skills)
 		->push("internals", internals);
 	
-
-
+	Printeger *printer = new Printeger();
+	printer->set(root);
+	cout << printer->print() << endl;
 }
 
 void test1()

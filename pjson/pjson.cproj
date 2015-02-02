@@ -31,8 +31,12 @@
   <ItemGroup>
     <Compile Include="main.cpp" />
     <Compile Include="Value.cpp" />
+    <Compile Include="Printeger.cpp" />
+    <Compile Include="BasePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Value.h" />
+    <None Include="Printeger.h" />
+    <None Include="IPrinter.h" />
   </ItemGroup>
 </Project>
