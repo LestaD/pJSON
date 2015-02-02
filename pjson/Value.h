@@ -21,7 +21,8 @@ namespace JSON {
 
 
 class Value {
-	
+
+public:
 	enum Type {
 		T_NULL = 0,
 		T_INT,
@@ -37,7 +38,6 @@ class Value {
 	typedef std::map<std::string, Value*> Map;
 	typedef std::pair<std::string, Value*> Pair;
 
-public:
 	Value();
 	Value(Value *copy);
 	Value(Value &copy);
@@ -103,7 +103,12 @@ public:
 	Value& operator+=(const Value& rhs);
 	Value& operator+=(const int& rhs);
 
+	Map		__getKeys();
+
 protected:
+
+	Value(Type typeflag);
+
 	void nullinit();
 	void copyfrom(Value&v);
 
@@ -114,8 +119,6 @@ protected:
 	void convertToDouble(bool change = false);
 	void convertToBool(bool change = false);
 	void convertToString(bool change = false);
-
-	Value(Type typeflag);
 
 private:
 	

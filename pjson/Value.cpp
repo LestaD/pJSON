@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <cstring>
 
 
 namespace LESTAD {
@@ -228,6 +229,10 @@ namespace JSON {
 		return std::string(m_String.c_str());
 	}
 
+	Value::Map Value::__getKeys() {
+		return m_Object;
+	}
+
 	// ----- TYPE CONVERT ----- //
 
 	void Value::convertToInt(bool change) {
@@ -268,7 +273,16 @@ namespace JSON {
 				sstream.setf(std::ios::fixed, std::ios::floatfield);
 				sstream.setf(std::ios::showpoint);
 				sstream << m_Double;
-				m_String = sstream.str();			break;
+				m_String = sstream.str();
+				char *str = (char*)m_String.c_str();
+				int sz = std::strlen(str);
+				for (int i = sz; i > 0; --i) {
+					if (str[i] == '0') {
+						str[i] = '\0';
+					}
+				}
+				m_String = str;
+				break;
 			}
 			case T_INT: {
 				std::ostringstream sstream;
