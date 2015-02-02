@@ -1,6 +1,9 @@
 ﻿#include "Value.h"
 #include <string>
 
+#ifndef LESTAD_JSON_IPRINTER_H
+#define LESTAD_JSON_IPRINTER_H
+
 namespace LESTAD {
 	namespace JSON {
 		class IPrinter {
@@ -20,3 +23,4 @@ namespace LESTAD {
 	}
 }
 
+#endif // LESTAD_JSON_IPRINTER_H
