@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include "Value.h"
 #include "Printeger.h"
+#include "JsonPrinter.h"
 
 using namespace std;
 using namespace LESTAD::JSON;
@@ -52,6 +53,7 @@ void test2()
 	
 	Printeger *printer = new Printeger();
 	printer->set(root);
+	printer->set(new JsonPrinter());
 	cout << printer->print() << endl;
 }
 

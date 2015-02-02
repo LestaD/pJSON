@@ -33,10 +33,12 @@
     <Compile Include="Value.cpp" />
     <Compile Include="Printeger.cpp" />
     <Compile Include="BasePrinter.cpp" />
+    <Compile Include="JsonPrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Value.h" />
     <None Include="Printeger.h" />
     <None Include="IPrinter.h" />
+    <None Include="JsonPrinter.h" />
   </ItemGroup>
 </Project>
