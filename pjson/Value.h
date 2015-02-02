@@ -2,6 +2,9 @@
 #include <vector>
 #include <map>
 
+#ifndef LESTAD_JSON_VALUE_H
+#define LESTAD_JSON_VALUE_H
+
 namespace LESTAD {
 
 namespace JSON {
@@ -128,3 +131,5 @@ private:
 };
 }
 }
+
+#endif // LESTAD_JSON_VALUE_H

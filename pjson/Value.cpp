@@ -237,7 +237,7 @@ namespace JSON {
 			case T_BOOLEAN: m_Int = m_Bool ? 1 : 0;		break;
 			case T_STRING:	m_Int = std::atoi(m_String.c_str());		break;
 		}
-		if (change) m_TypeFlag = m_INT;
+		if (change) m_TypeFlag = T_INT;
 	}
 
 	void Value::convertToDouble(bool change) {
@@ -247,7 +247,7 @@ namespace JSON {
 			case T_BOOLEAN: m_Double = m_Bool ? 1.0 : 0.0;	break;
 			case T_STRING:	m_Double = std::atof(m_String.c_str());		break;
 		}
-		if (change) m_TypeFlag = m_DOUBLE;
+		if (change) m_TypeFlag = T_DOUBLE;
 	}
 
 	void Value::convertToBool(bool change) {
@@ -257,7 +257,7 @@ namespace JSON {
 			case T_INT:		m_Bool = m_Int == 0 ? false : true;		break;
 			case T_STRING:	m_Bool = m_String.length() > 0;
 		}
-		if (change) m_TypeFlag = m_BOOLEAN;
+		if (change) m_TypeFlag = T_BOOLEAN;
 	}
 
 	void Value::convertToString(bool change) {
@@ -284,7 +284,7 @@ namespace JSON {
 			}
 			case T_OBJECT: m_String = "[object Object]";		break;
 		}
-		if (change) m_TypeFlag = m_STRING;
+		if (change) m_TypeFlag = T_STRING;
 	}
 
 	// ----- SET VALUE ----- //
@@ -474,20 +474,26 @@ namespace JSON {
 
 	Value* Value::remove(int_j index) {
 		if (isArray()) {
-
+			m_Array.erase(m_Array.begin() + index);
 		}
 
 		return this;
 	}
 
 	Value* Value::remove(const char *key) {
-		
+		remove(std::string(key));
 
 		return this;
 	}
 
 	Value* Value::remove(std::string key) {
-		
+		if (!isObject()) return this;
+
+		Map::iterator buf = m_Object.find(key);
+		if (buf != m_Object.end()) {
+			(*buf).second->kill();
+			m_Object.erase(buf);
+		}
 
 		return this;
 	}
@@ -530,7 +536,7 @@ namespace JSON {
 				break;
 			}
 			case T_BOOLEAN: {
-				switch(rhs.getType())) {
+				switch(rhs.getType()) {
 					case T_INT: {
 						convertToInt(true);
 						m_Int += rhs.m_Int;
