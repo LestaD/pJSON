@@ -155,7 +155,7 @@ nation = "russian"
 male = true
 internals = "mind","clever","cute"
 
-internals[3]
+[internals.3]
 t = "flash"
 w = "speed"
 
