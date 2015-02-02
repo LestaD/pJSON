@@ -153,7 +153,7 @@ surname = "Zeix"
 age = 20
 nation = "russian"
 male = true
-internals = "mind","clever","cute"
+internals = ["mind","clever","cute"]
 
 [internals.3]
 t = "flash"
@@ -164,3 +164,49 @@ fast = 6
 look = 8
 ```
 
+Or nginx config:
+
+```conf
+name LestaD;
+surname Zeix;
+age 20;
+nation russian;
+male on;
+internals mind clever cute;
+internals:3 {
+	t flash;
+	w speed;
+}
+skills {
+	fast 6;
+	look 8;
+}
+```
+
+Or VALVe resource file (.res):
+```
+"Filename"
+{
+	"name"		"LestaD"
+	"surname"	"Zeix"
+	"age"		"20"
+	"nation"	"russian"
+	"male"		"1"
+	"internals"
+	{
+		"0"	"mind"
+		"1"	"clever"
+		"2"	"cute"
+		"3"
+		{
+			"t"	"flash"
+			"w"	"speed"
+		}
+	}
+	"skills"
+	{
+		"fast"		"6"
+		"look"		"8"
+	}
+}
+``
