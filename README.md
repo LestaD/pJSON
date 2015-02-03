@@ -166,7 +166,7 @@ look = 8
 
 Or nginx config:
 
-```conf
+```Nginx
 name LestaD;
 surname Zeix;
 age 20;
@@ -209,4 +209,23 @@ Or VALVe resource file (.res):
 		"look"		"8"
 	}
 }
-``
+```
+And finally php array:
+```php
+<?php
+return [
+	'name' => 'LestaD',
+	'surname' => 'Zeix',
+	'age' => 20,
+	'nation' => 'russian',
+	'male' => true,
+	'internals' => ['mind', 'clever', 'cute', [
+		't' => 'flash',
+		'w' => 'speed'
+	]],
+	'skills' => [
+		'fast' => 6,
+		'look' => 8
+	]
+];
+```
